@@ -10,6 +10,7 @@ This project implements a Convolutional Neural Network (CNN) for classifying flo
 * Leverages PyTorch for building and training the CNN model.
 * Achieves high accuracy on the 102 Oxford Flowers dataset.
 * Provides options to customize training parameters through arguments.
+* 65% accuracy using 8 layers and the trained data I've created from scratch.
 
 ## Installation
 
@@ -64,12 +65,20 @@ The command downloads the Oxford 102 flower dataset and also the flower segmenta
 
 If it is the first time running then it will take a little longer to download.
 
-I found this to be the most effective way of training to acheive the highest accurancy:
+### Using the trained model I've created
+
+If you just want to test a small number using the best defaults and loading from trained data this this will suffice:
+```sh
+python attempt5.py --num_epochs=20 --load_training=True
+```
+### Training from scratch
+
+I found this to be the most effective way of training from scratch to acheive the highest accurancy. Each iteration adds to the previous but with different batch sizes:
 
 ```sh
 # start training, it will download the images, and might take a min to get going, trains with a large batch size of 256
 
-python attempt5.py --num_epochs=300 --batch_size=256 --image_width=500 --image_height=500 --sharp=True --rotation=70 --equal=True --patience=30 --layers=8 --load_training=False
+python attempt5.py --num_epochs=300 --batch_size=256 --image_width=500 --image_height=500 --sharp=True --rotation=70 --equal=True --patience=30 --layers=8 
 
 # now start again but loading the training data from last time, this time with a batch size of 128
 
@@ -83,9 +92,9 @@ python attempt5.py --num_epochs=300 --batch_size=64 --image_width=500 --image_he
 
 python attempt5.py --num_epochs=300 --batch_size=32 --image_width=500 --image_height=500 --sharp=True --rotation=70 --equal=True --patience=30 --layers=8 --load_training=True
 
-# I've acheived 65% accuracy with this approach.
+# I've acheived ~65% accuracy with this approach. 
+# However, it takes about 9 hrs on my computer.
 ```
-
 
 ## Files
 
@@ -101,8 +110,6 @@ python attempt5.py --num_epochs=300 --batch_size=32 --image_width=500 --image_he
 
 ```attempt5.py```: Final version. 8 configurable layers. Able to tune through command line arguments. Applies segmentation masks. Each layer being; Conv2d, BatchNorm2d and MaxPool2d. Then dropout and three fully connected linear transformations. Is not too slow but using GPU or NPU is recommended. 
 
+```flowers-trained-data-layers8.pth```: Saved training data for a 8 layer CNN - 65% accuracy
 
-```flowers-trained-data-layers8.pth```: Saved training data for a 8 layer CNN.
-
-
-```training-results.txt```: Saved output from a training session.
+```training-results.xlsx```: Results in tabular form with a nice graph
